@@ -5,6 +5,7 @@ import com.example.lottore.constant.WinningPrize;
 import com.example.lottore.dto.WinningResult;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +40,14 @@ public class Lotto {
         if(winningNumberCount == 4){
             return WinningPrize.FOURTH;
         }
+        if(winningNumberCount == 3){
+            return WinningPrize.FIFTH;
+        }
         return null;
+    }
+
+    public Iterator<Integer> getLottoNumber(){
+        return numbers.iterator();
     }
 
 
