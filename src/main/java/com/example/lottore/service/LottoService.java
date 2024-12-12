@@ -1,5 +1,6 @@
 package com.example.lottore.service;
 
+import com.example.lottore.constant.Constant;
 import com.example.lottore.constant.WinningPrize;
 
 public class LottoService {
@@ -17,6 +18,10 @@ public class LottoService {
             return WinningPrize.FOURTH;
         }
         return null;
+    }
+
+    public int CalculateLottoCount(int payCost){
+        return payCost/Constant.LOTTO_COST.getValue();
     }
 
 }
