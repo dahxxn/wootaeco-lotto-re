@@ -22,4 +22,19 @@ public class LottoTests {
         assertEquals(expected.getWinningNumberCount(),actual.getWinningNumberCount());
         assertEquals(expected.getIsBonusNumber(),actual.getIsBonusNumber());
     }
+
+    @Test
+    public void 로또_객체_생성_및_당첨_결과_테스트_2(){
+        List<Integer> lottoNumbers = new ArrayList<>(List.of(1,2,3,11,22,33));
+        int bonusNumber = 10;
+        Lotto lotto = new Lotto(lottoNumbers);
+        List<Integer> winningNumbers = new ArrayList<>(List.of(4,5,6,7,8,9));
+
+
+        WinningResult actual = lotto.checkWinningNumbers(winningNumbers, bonusNumber);
+        WinningResult expected = new WinningResult(0,false);
+
+        assertEquals(expected.getWinningNumberCount(),actual.getWinningNumberCount());
+        assertEquals(expected.getIsBonusNumber(),actual.getIsBonusNumber());
+    }
 }
