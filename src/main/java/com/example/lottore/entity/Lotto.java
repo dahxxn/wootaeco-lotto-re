@@ -1,6 +1,7 @@
 package com.example.lottore.entity;
 
 import com.example.lottore.constant.Constant;
+import com.example.lottore.constant.WinningPrize;
 import com.example.lottore.dto.WinningResult;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,6 +24,22 @@ public class Lotto {
         boolean isBonusNumber = numbers.contains(bonusNumber);
 
         return new WinningResult(winningCount, isBonusNumber);
+    }
+
+    public WinningPrize findPrize(int winningNumberCount, boolean isBonusNumber){
+        if(winningNumberCount == 5 && isBonusNumber){
+            return WinningPrize.SECOND;
+        }
+        if(winningNumberCount == 6){
+            return WinningPrize.FIRST;
+        }
+        if(winningNumberCount == 5){
+            return WinningPrize.THIRD;
+        }
+        if(winningNumberCount == 4){
+            return WinningPrize.FOURTH;
+        }
+        return null;
     }
 
 
