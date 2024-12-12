@@ -6,6 +6,7 @@ import com.example.lottore.constant.WinningPrize;
 import com.example.lottore.dto.WinningResult;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class TotalLotto {
@@ -35,12 +36,13 @@ public class TotalLotto {
         return Randoms.pickUniqueNumbersInRange(Constant.LOTTO_NUMBER_RANGE_START.getValue(), Constant.LOTTO_NUMBER_RANGE_END.getValue(), Constant.LOTTO_COUNT.getValue());
     }
 
-    public void checkTotalWinningResult(List<Integer> winningNumbers, int bonusNumber){
+    public HashMap<WinningPrize, Integer> checkTotalWinningResult(List<Integer> winningNumbers, int bonusNumber){
         for(Lotto lotto : totalLotto){
             WinningResult result = lotto.checkWinningNumbers(winningNumbers,bonusNumber);
             WinningPrize prize = lotto.findPrize(result.getWinningNumberCount(), result.getIsBonusNumber());
             addWinningResult(prize);
         }
+        return winningResult;
     }
 
     private void addWinningResult(WinningPrize prize){
@@ -61,7 +63,12 @@ public class TotalLotto {
     }
 
     public double calculateRateOfReturn(int payCost, long totalPrize){
-        return Math.round((float)(totalPrize/payCost)*100)/100.0;
+        double rate = (double) totalPrize / payCost * 100;
+        return Math.round(rate * 100)/100.0;
+    }
+
+    public Iterator<Lotto> getTotalLotto(){
+        return totalLotto.iterator();
     }
 
 }
