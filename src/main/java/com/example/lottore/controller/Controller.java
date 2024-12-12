@@ -27,28 +27,34 @@ public class Controller {
     }
 
     public List<Integer> getInputWinningNumbers(){
-        while(true){
-            String rawWinningNumbers = inputView.readInput(PrintMessage.INPUT_WINNING_NUMBER_MESSAGE.toString());
-
-
-            List<Integer> winningNumbers = new ArrayList<>();
-            return winningNumbers;
+        String rawWinningNumbers = inputView.readInput(PrintMessage.INPUT_WINNING_NUMBER_MESSAGE.toString());
+        List<Integer> winningNumbers = new ArrayList<>();
+        try{
+            winningNumbers = validateRawInput.validateRawWinningNumbers(rawWinningNumbers);
+        }catch(CustomException e){
+            outputView.printMessage(e.getMessage());
+            getInputWinningNumbers();
         }
+        return winningNumbers;
     }
 
-    public int getInputBonusNumber(){
-        while(true){
-            String rawBonusNumber = inputView.readInput(PrintMessage.INPUT_BONUS_NUMBER_MESSAGE.toString());
-
-            int bonusNumber = Integer.parseInt(rawBonusNumber);
-            return bonusNumber;
+    public int getInputBonusNumber(List<Integer> winningNumbers){
+        String rawBonusNumber = inputView.readInput(PrintMessage.INPUT_BONUS_NUMBER_MESSAGE.toString());
+        int bonusNumber = 0;
+        try{
+            bonusNumber = validateRawInput.validateRawBonusNumber(rawBonusNumber, winningNumbers);
+        }catch(CustomException e){
+            outputView.printMessage(e.getMessage());
+            getInputBonusNumber(winningNumbers);
         }
+        return bonusNumber;
     }
 
     public void run(){
-        //사용자에게 입력받기
-        getInputPayCost();
-
+        //사용자에게 입력&검증 받기
+        int payCost = getInputPayCost();
+        List<Integer> winningNumbers = getInputWinningNumbers();
+        int bonusNumber = getInputBonusNumber(winningNumbers);
 
 
     }
