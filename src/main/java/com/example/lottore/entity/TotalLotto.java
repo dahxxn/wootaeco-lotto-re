@@ -49,4 +49,19 @@ public class TotalLotto {
         }
     }
 
+    public long calculateTotalPrize(){
+        long totalPrize = 0;
+        for(WinningPrize prize : winningResult.keySet()){
+            int winningCount = winningResult.get(prize);
+            if(winningCount > 0){
+                totalPrize += ((long) prize.getPrize() * winningCount);
+            }
+        }
+        return totalPrize;
+    }
+
+    public double calculateRateOfReturn(int payCost, long totalPrize){
+        return Math.round((float)(totalPrize/payCost)*100)/100.0;
+    }
+
 }
