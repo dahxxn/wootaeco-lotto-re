@@ -1,11 +1,15 @@
 package com.example.lottore.controller;
 
 import com.example.lottore.constant.PrintMessage;
+import com.example.lottore.constant.WinningPrize;
+import com.example.lottore.entity.TotalLotto;
 import com.example.lottore.exception.CustomException;
+import com.example.lottore.service.LottoService;
 import com.example.lottore.service.ValidateRawInput;
 import com.example.lottore.view.InputView;
 import com.example.lottore.view.OutputView;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Controller {
@@ -13,6 +17,9 @@ public class Controller {
     OutputView outputView = new OutputView();
 
     ValidateRawInput validateRawInput = new ValidateRawInput();
+    LottoService lottoService = new LottoService();
+
+    TotalLotto totalLotto;
 
     public int getInputPayCost(){
         String rawPayCost = inputView.readInput(PrintMessage.INPUT_PAY_COST_MESSAGE.toString());
@@ -23,6 +30,7 @@ public class Controller {
             outputView.printMessage(e.getMessage());
             getInputPayCost();
         }
+        outputView.printLineBreak();
         return payCost;
     }
 
@@ -35,6 +43,8 @@ public class Controller {
             outputView.printMessage(e.getMessage());
             getInputWinningNumbers();
         }
+        outputView.printLineBreak();
+
         return winningNumbers;
     }
 
@@ -47,15 +57,26 @@ public class Controller {
             outputView.printMessage(e.getMessage());
             getInputBonusNumber(winningNumbers);
         }
+        outputView.printLineBreak();
+
         return bonusNumber;
     }
 
     public void run(){
-        //사용자에게 입력&검증 받기
         int payCost = getInputPayCost();
+        int lottoCount = lottoService.CalculateLottoCount(payCost);
+        totalLotto = new TotalLotto();
+        totalLotto.buyLottos(lottoCount);
+        outputView.printTotalLotto(totalLotto, lottoCount);
+
         List<Integer> winningNumbers = getInputWinningNumbers();
         int bonusNumber = getInputBonusNumber(winningNumbers);
 
+        HashMap<WinningPrize,Integer> winningResult = totalLotto.checkTotalWinningResult(winningNumbers,bonusNumber);
+        outputView.printWinningResult(winningResult);
 
+        long totalPrize = totalLotto.calculateTotalPrize();
+        double rateOfReturn = totalLotto.calculateRateOfReturn(payCost, totalPrize);
+        outputView.printRateOfReturn(rateOfReturn);
     }
 }
