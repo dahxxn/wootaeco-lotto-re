@@ -15,4 +15,8 @@ public enum PrintMessage {
     PrintMessage(String message) {
         this.message = message;
     }
+    public String toString() {
+        return message;
+    }
+
 }
