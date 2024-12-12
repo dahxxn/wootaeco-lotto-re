@@ -88,12 +88,17 @@ public class ValidateRawInput {
         return winningNumbers;
     }
 
+    public void checkBonusNumberInWinningNumbers(List<Integer> winningNumber, int bonusNumber){
+        if(winningNumber.contains(bonusNumber)){
+            throw new CustomException(ExceptionMessage.WRONG_LOTTO_NUMBER_DUPLICATED);
+        }
+    }
+
     public int validateRawBonusNumber(String rawBonusNumber, List<Integer> winningNumbers){
         rawBonusNumber = rawBonusNumber.trim();
         int bonusNumber = isNumber(rawBonusNumber);
         checkNumberInLottoRange(bonusNumber);
-        winningNumbers.add(bonusNumber);
-        checkDuplicatedNumberInList(winningNumbers);
+        checkBonusNumberInWinningNumbers(winningNumbers,bonusNumber);
         return bonusNumber;
     }
 }
